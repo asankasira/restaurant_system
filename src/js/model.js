@@ -38,7 +38,7 @@ export const searchRecipe = async (query) => {
   } catch (err) {
     throw err;
   }
-}
+};
 
 export const getPageResults = (pageNum = state.search.currentPage) => {
   state.search.currentPage = pageNum;
@@ -48,7 +48,16 @@ export const getPageResults = (pageNum = state.search.currentPage) => {
   state.search.currentStartIndex = start;
 
   return state.search.results.slice(start, end);
-}
+};
+
+export const updateServings = (numOfServing) => {
+  state.recipe.ingredients?.forEach(ing => {
+    if(ing.quantity) {
+       ing.quantity = (ing.quantity * numOfServing) / state.recipe.servings;
+    }
+  });
+  state.recipe.servings = numOfServing;
+};
 
 
 const getRecipe = (recipe) => {

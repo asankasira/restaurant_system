@@ -29,12 +29,12 @@ class RecipeView extends View {
             <span class="recipe__info-data recipe__info-data--people">${this._data.servings}</span>
             <span class="recipe__info-text">servings</span>
             <div class="recipe__info-buttons">
-                <button class="btn--tiny btn--increase-servings">
+                <button class="btn--tiny btn--update-servings" data-serve-number="${this._data.servings - 1}">
                 <svg>
                     <use href="${icons}#icon-minus-circle"></use>
                 </svg>
                 </button>
-                <button class="btn--tiny btn--increase-servings">
+                <button class="btn--tiny btn--update-servings" data-serve-number="${this._data.servings + 1}">
                 <svg>
                     <use href="${icons}#icon-plus-circle"></use>
                 </svg>
@@ -100,6 +100,16 @@ class RecipeView extends View {
             const hash = window.location.hash;
             hash ? handler(hash.slice(1)) : handler();
         });
+    }
+
+    addHandlerServingUpdate(handler) {
+        this._parentElement.addEventListener('click', e => {
+            const servBtn = e.target.closest('.btn--update-servings');
+            if(!servBtn) return;
+
+            const serveNum = +servBtn.dataset.serveNumber;
+            serveNum > 0 && handler(serveNum);
+        })
     }
 }
 

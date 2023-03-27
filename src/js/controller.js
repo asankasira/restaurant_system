@@ -57,10 +57,15 @@ const controlPaginationGoTo = (pageNum) => {
     controlRecipes(results?.[currentStartIndex]?.id);
 }
 
+const controlServingsUpdate = (numOfServing) => {
+   model.updateServings(numOfServing);
+   recipeView.render(model.state.recipe);
+}
 
 //Publisher subscriber pattern
 const init = () => {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerServingUpdate(controlServingsUpdate);
   searchView.addHandlerSearch(controlSearchResults);
   resultsView.addHandlerSelect(controlRecipes);
   paginationButtonView.addHandlerClick(controlPaginationGoTo);
