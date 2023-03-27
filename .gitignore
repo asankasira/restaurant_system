@@ -1,0 +1,18 @@
+# Directories
+node_modules/
+build/
+dist
+
+# Logs
+logs
+*.log
+
+# Dependencies
+npm-debug.log*
+forkify-*.png
+
+# Visual Studio Code files
+.vscode/
+.parcel-cache/
+
+**/controller_bck
