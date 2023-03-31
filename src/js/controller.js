@@ -4,6 +4,7 @@ import recipeView from './view/recipeView.js';
 import searchView from './view/searchView.js';
 import resultsView from './view/resultsView.js';
 import paginationButtonView from './view/paginationView.js';
+import bookMarksView from './view/bookMarksView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -17,7 +18,8 @@ const controlRecipes = async (id = null) => {
     //Loading spinner untill data is fetched
     recipeView.renderSpinner();
 
-    //Auto selecting the preview element
+    //Auto selecting the preview element (resultsView & bookMarkView)
+    resultsView.fireHashChangeEvent(id);
     resultsView.selectPreview(id);
 
     //Loading recipe
@@ -62,12 +64,19 @@ const controlServingsUpdate = (numOfServing) => {
    recipeView.render(model.state.recipe);
 }
 
+const controlToggleBookMark = (id) => {
+  model.toggleBookMarks(id);
+  recipeView.render(model.state.recipe);
+  bookMarksView.render(model.state.bookmarks);
+}
+
 //Publisher subscriber pattern
 const init = () => {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerServingUpdate(controlServingsUpdate);
+  recipeView.addHandlerBookMark(controlToggleBookMark);
   searchView.addHandlerSearch(controlSearchResults);
-  resultsView.addHandlerSelect(controlRecipes);
+  resultsView.addHandlerSelect(controlRecipes); //common for both results and bookmarks view
   paginationButtonView.addHandlerClick(controlPaginationGoTo);
 }
 

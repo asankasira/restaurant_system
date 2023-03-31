@@ -9,19 +9,21 @@ export const state = {
     pageSize: DEFAULT_PAGE_SIZE,
     currentPage: 1,
     currentStartIndex: 0
-  }
-};
+  },
+  bookmarks: []
+}
 
 export const loadRecipe = async (id) => {
   try {
     const data = await getJsonResp(`${API_URL}/${id}`);
     const {recipe} = data.data;
     state.recipe = getRecipe(recipe);
+    state.recipe.bookmarked = state.bookmarks.some(r => r.id === id);
 
   } catch (err) {
     throw err;
   }
-};
+}
 
 export const searchRecipe = async (query) => {
   try {
@@ -38,7 +40,7 @@ export const searchRecipe = async (query) => {
   } catch (err) {
     throw err;
   }
-};
+}
 
 export const getPageResults = (pageNum = state.search.currentPage) => {
   state.search.currentPage = pageNum;
@@ -48,7 +50,7 @@ export const getPageResults = (pageNum = state.search.currentPage) => {
   state.search.currentStartIndex = start;
 
   return state.search.results.slice(start, end);
-};
+}
 
 export const updateServings = (numOfServing) => {
   state.recipe.ingredients?.forEach(ing => {
@@ -57,8 +59,17 @@ export const updateServings = (numOfServing) => {
     }
   });
   state.recipe.servings = numOfServing;
-};
+}
 
+export const toggleBookMarks = (id) => {
+  state.recipe.bookmarked = !state.recipe.bookmarked;
+
+  if(state.recipe.bookmarked) {
+    state.bookmarks.push(state.recipe);
+  }else{
+    state.bookmarks = state.bookmarks.filter(r => r.id !== id);
+  }
+}
 
 const getRecipe = (recipe) => {
     let rcp = {
