@@ -46,8 +46,7 @@ export default class View {
     }
 
     renderMessage(message = this._sucessMessage) {
-        const markUp = `
-        <div class="message">
+        const markUp = `<div class="message">
             <div>
             <svg>
                 <use href="${icons}#icon-smile"></use>

@@ -1,5 +1,6 @@
 
 import * as model from './model.js';
+import homeView from './view/homeView.js';
 import recipeView from './view/recipeView.js';
 import searchView from './view/searchView.js';
 import resultsView from './view/resultsView.js';
@@ -70,8 +71,14 @@ const controlToggleBookMark = (id) => {
   bookMarksView.render(model.state.bookmarks);
 }
 
+const loadBookmars = () => {
+   model.loadBookmars();
+   bookMarksView.render(model.state.bookmarks);
+}
+
 //Publisher subscriber pattern
 const init = () => {
+  homeView.addHandlerLoad(loadBookmars);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerServingUpdate(controlServingsUpdate);
   recipeView.addHandlerBookMark(controlToggleBookMark);

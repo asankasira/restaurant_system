@@ -69,6 +69,12 @@ export const toggleBookMarks = (id) => {
   }else{
     state.bookmarks = state.bookmarks.filter(r => r.id !== id);
   }
+  localStorage.setItem('savedBookMarks', JSON.stringify(state.bookmarks));
+}
+
+export const loadBookmars = () => {
+   const storage = JSON.parse(localStorage.getItem('savedBookMarks'));
+   if(storage) state.bookmarks = storage;
 }
 
 const getRecipe = (recipe) => {
