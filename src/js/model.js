@@ -1,5 +1,5 @@
-import {API_URL, DEFAULT_PAGE_SIZE} from './utils/config';
-import {getJsonResponse as getJsonResp} from './utils/helper';
+import {API_URL, API_KEY, DEFAULT_PAGE_SIZE} from './utils/config';
+import {getJsonResponse as getJsonResp, getRecipe} from './utils/helper';
 
 export const state = {
   recipe: {},
@@ -15,7 +15,7 @@ export const state = {
 
 export const loadRecipe = async (id) => {
   try {
-    const data = await getJsonResp(`${API_URL}/${id}`);
+    const data = await getJsonResp(`${API_URL}/${id}?key=${API_KEY}`);
     const {recipe} = data.data;
     state.recipe = getRecipe(recipe);
     state.recipe.bookmarked = state.bookmarks.some(r => r.id === id);
@@ -28,7 +28,7 @@ export const loadRecipe = async (id) => {
 export const searchRecipe = async (query) => {
   try {
     state.search.query = query;
-    const data = await getJsonResp(`${API_URL}?search=${query}`);
+    const data = await getJsonResp(`${API_URL}?search=${query}&key=${API_KEY}`);
 
     const recipes = data.data?.recipes.map(getRecipe);
     state.search.results = recipes;
@@ -77,24 +77,3 @@ export const loadBookmars = () => {
    if(storage) state.bookmarks = storage;
 }
 
-const getRecipe = (recipe) => {
-    let rcp = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients
-    }
-
-    // Removing undefined or null properties
-    rcp = Object.entries(rcp).reduce((acc, [key, value]) => {
-        acc[key] = value;
-        value ?? delete acc[key];
-        return acc;
-    }, {})
-
-    return rcp;
-}

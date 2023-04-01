@@ -88,3 +88,5 @@ const init = () => {
 }
 
 init();
+
+export {recipeView, bookMarksView};
