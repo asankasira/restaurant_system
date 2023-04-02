@@ -10,6 +10,7 @@ $color-grey-dark-1: #615551; // Normal text
 $color-grey-dark-2: #918581; // Lighter text
 $color-res-highlight-1: #ffefde;
 $color-res-highlight-2: #f5dfc8;
+$color-show-sucess: rgb(28, 183, 10);
 
 $gradient: linear-gradient(to right bottom, $color-grad-1, $color-grad-2);
 
@@ -69,5 +70,16 @@ body {
     max-width: 100%;
     margin: 0;
     border-radius: 0;
+  }
+}
+
+
+div.message {
+  svg {
+    fill: $color-show-sucess;
+  }
+
+  p {
+    color: $color-show-sucess;
   }
 }
